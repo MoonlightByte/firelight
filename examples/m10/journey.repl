@@ -1,0 +1,8 @@
+invoke "ability:focused-strike" { "payer" = character "char:orin"; "target" = character "char:lyra"; };
+heal "char:orin" resource "focus" by 3;
+invoke "ability:focused-strike" { "payer" = character "char:orin"; "target" = character "char:lyra"; };
+heal "char:lyra" resource "hp" by 5;
+spend "char:orin" resource "focus" by 2;
+damage "char:lyra" resource "hp" by 1;
+:inspect
+:quit

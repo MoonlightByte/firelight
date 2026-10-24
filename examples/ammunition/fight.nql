@@ -1,0 +1,5 @@
+// One fight: six arrows and three bolts land where they can be found again.
+// The fighter's fourth bolt breaks against a shield and is simply spent.
+consume "item:arrows" from "char:ranger" by 6 recoverable;
+consume "item:bolts" from "char:fighter" by 3 recoverable;
+consume "item:bolts" from "char:fighter" by 1;

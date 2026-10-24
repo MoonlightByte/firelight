@@ -1,0 +1,7 @@
+invoke "ability:aid-and-reward" {
+    "donor" = character "char:rowan";
+    "recipient" = character "char:iris";
+    "gift" = item "item:reward";
+    "heal_amount" = int 4;
+    "guard_id" = condition_id "guard:aid-and-reward:iris:001";
+};

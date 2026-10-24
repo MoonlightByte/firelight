@@ -1,0 +1,3 @@
+record journal "journal:valley/0001" departure with party "occ:valley/B01/peddler" text "Set out for the watchtower before dawn; the peddler stayed behind.";
+travel party to "loc:valley/B04";
+record journal "journal:valley/0002" arrival with party text "Goblins at the old mill stopped us short of the watchtower.";

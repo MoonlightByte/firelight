@@ -1,0 +1,5 @@
+spend "char:orin" resource "focus" by 99;
+spend "char:orin" resource "focus" by ;
+invoke "ability:steady-aid" { "payer" = character "char:orin"; "target" = character "char:lyra"; "guard_id" = condition_id "guard:m7:one"; };
+:inspect
+:quit

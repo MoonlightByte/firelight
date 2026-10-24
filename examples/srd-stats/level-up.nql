@@ -1,0 +1,11 @@
+// One character update from an agent: the fighter goes from level 1 to 5,
+// takes the level 4 Ability Score Improvement in Strength, and gains 8 hit
+// points a level (fixed 6 plus Constitution 2). The agent states these facts;
+// the engine derives every bonus that depends on them.
+apply effect "char:fighter:level:2" from character "char:fighter" on character "char:fighter" stat "level" add 1;
+apply effect "char:fighter:level:3" from character "char:fighter" on character "char:fighter" stat "level" add 1;
+apply effect "char:fighter:level:4" from character "char:fighter" on character "char:fighter" stat "level" add 1;
+apply effect "char:fighter:asi:4" from character "char:fighter" on character "char:fighter" stat "strength" add 2;
+apply effect "char:fighter:level:5" from character "char:fighter" on character "char:fighter" stat "level" add 1;
+expand "char:fighter" resource "hp" by 32;
+heal "char:fighter" resource "hp" by 32;

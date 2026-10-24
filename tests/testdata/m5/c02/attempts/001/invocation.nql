@@ -1,0 +1,5 @@
+invoke "ability:paired-conditions" {
+    "target" = character "char:iris";
+    "guard_id" = condition_id "condition-instance:c02:iris:guarded";
+    "mark_id" = condition_id "condition-instance:c02:iris:marked";
+};

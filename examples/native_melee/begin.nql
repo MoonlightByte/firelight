@@ -1,0 +1,7 @@
+// This authored tie priority is part of the proposed scene to accept before
+// reporting initiative. The raw15 here is explicit human-supplied test input.
+battle begin "gate-encounter" at "gate" {
+ participant "tess" side protected control human at 0 0 tie 0 initiative 15;
+ participant "lyra" side protected control agent at 0 1 tie 1;
+ participant "raider" side opposition control agent at 1 0 tie 2;
+};

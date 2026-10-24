@@ -1,0 +1,10 @@
+ability "ability:paired-conditions" named "PairedConditions" {
+    parameter "target" character;
+    parameter "guard_id" condition_id;
+    parameter "mark_id" condition_id;
+
+    apply condition param "guard_id" of "condition:guarded" to param "target"
+        from location "loc:shrine";
+    apply condition param "mark_id" of "condition:marked" to param "target"
+        from location "loc:shrine";
+}

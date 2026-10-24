@@ -1,0 +1,3 @@
+// The cultist's burning cone over the imp and Ada: one damage roll, one save each.
+save "occ:valley/B03/cultist-1" profile stat "save:dexterity" dc 13 damage 3d6 kind "fire" success half against "occ:valley/B03/imp-1" faces 12 damage 10;
+save "occ:valley/B03/cultist-1" profile stat "save:dexterity" dc 13 damage 3d6 kind "fire" success half against "char:ada" faces 4 damage 10 faces "char:ada:concentration" 15;

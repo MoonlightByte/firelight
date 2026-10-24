@@ -1,0 +1,11 @@
+// One atomic transaction; each primitive has its own structured event(s).
+transfer "item:shield:001" from "char:ada" to "char:cy";
+equip "item:shield:001" on "char:ada";
+damage "char:ada" resource "hp" by 7;
+heal "char:ada" resource "hp" by 3;
+apply effect "effect:resolve" from character "char:cy" on character "char:ada" stat "defense" add 4;
+remove effect "effect:resolve";
+expire effect "effect:blessing";
+move "char:ada" to "loc:garden";
+relate character "char:ada" "trust" character "char:bea" = 5;
+unequip "item:shield:001";

@@ -1,0 +1,6 @@
+invoke "ability:ownership-exchange" {
+    "left" = character "char:iris";
+    "right" = character "char:rowan";
+    "outgoing" = item "item:shield";
+    "returning" = item "item:token";
+};

@@ -1,0 +1,8 @@
+invoke "ability:steady-aid" { "payer" = character "char:orin"; "target" = character "char:lyra"; "guard_id" = condition_id "guard:m7:one"; };
+remove condition "guard:m7:one" from "char:lyra";
+heal "char:orin" resource "focus" by 3;
+invoke "ability:steady-aid" { "payer" = character "char:orin"; "target" = character "char:lyra"; "guard_id" = condition_id "guard:m7:two"; };
+spend "char:orin" resource "focus" by 2;
+remove condition "guard:m7:two" from "char:lyra";
+:inspect
+:quit

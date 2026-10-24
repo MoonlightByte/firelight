@@ -1,0 +1,12 @@
+// Synthetic example data, not a published game price table.
+rules { transfer unequips; wear owner_only; }
+location "loc:camp" named "Camp";
+character "char:ada" named "Ada" at "loc:camp" {
+ resource "copper" = 10 min 0 max 100;
+}
+item type "itemdef:torch" named "Reed torch" {
+ description "A bundle of dry reeds bound with twine.";
+ kind "gear"; subtype "light";
+ magical false; consumable true;
+ price "copper" 1 per 1;
+}

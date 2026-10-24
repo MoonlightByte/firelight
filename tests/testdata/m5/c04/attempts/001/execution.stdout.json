@@ -1,0 +1,444 @@
+{
+  "revision": 1,
+  "result": {
+    "revision": 1,
+    "request": {
+      "id": "m5:c04:attempt:001",
+      "expected_revision": 0,
+      "actor": {
+        "kind": "character",
+        "id": "char:rowan"
+      },
+      "operations": [
+        {
+          "invoke": {
+            "ability": "ability:aid-and-reward",
+            "arguments": [
+              {
+                "name": "donor",
+                "value": {
+                  "character": "char:rowan"
+                }
+              },
+              {
+                "name": "gift",
+                "value": {
+                  "item": "item:reward"
+                }
+              },
+              {
+                "name": "guard_id",
+                "value": {
+                  "condition_id": "guard:aid-and-reward:iris:001"
+                }
+              },
+              {
+                "name": "heal_amount",
+                "value": {
+                  "integer": 4
+                }
+              },
+              {
+                "name": "recipient",
+                "value": {
+                  "character": "char:iris"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "events": [
+      {
+        "ability_origin": {
+          "ability": "ability:aid-and-reward",
+          "step": 0
+        },
+        "id": "event:1:1",
+        "revision": 1,
+        "request_id": "m5:c04:attempt:001",
+        "actor": {
+          "kind": "character",
+          "id": "char:rowan"
+        },
+        "operation": 0,
+        "kind": "HealingApplied",
+        "resource": {
+          "character": "char:iris",
+          "resource": "hp",
+          "requested": 4,
+          "before": {
+            "current": 6,
+            "minimum": 0,
+            "maximum": 20
+          },
+          "after": {
+            "current": 10,
+            "minimum": 0,
+            "maximum": 20
+          }
+        }
+      },
+      {
+        "ability_origin": {
+          "ability": "ability:aid-and-reward",
+          "step": 1
+        },
+        "id": "event:1:2",
+        "revision": 1,
+        "request_id": "m5:c04:attempt:001",
+        "actor": {
+          "kind": "character",
+          "id": "char:rowan"
+        },
+        "operation": 0,
+        "kind": "ItemTransferred",
+        "ownership": {
+          "item": "item:reward",
+          "before": "char:rowan",
+          "after": "char:iris"
+        }
+      },
+      {
+        "ability_origin": {
+          "ability": "ability:aid-and-reward",
+          "step": 2
+        },
+        "condition": {
+          "before": null,
+          "after": {
+            "id": "guard:aid-and-reward:iris:001",
+            "type": "condition:guarded",
+            "target": "char:iris",
+            "source": {
+              "kind": "location",
+              "id": "loc:shrine"
+            },
+            "applied_revision": 1,
+            "cause": {
+              "ability_origin": {
+                "ability": "ability:aid-and-reward",
+                "step": 2
+              },
+              "request_id": "m5:c04:attempt:001",
+              "operation": 0,
+              "actor": {
+                "kind": "character",
+                "id": "char:rowan"
+              }
+            }
+          },
+          "before_effects": null,
+          "after_effects": [
+            {
+              "condition_origin": {
+                "instance": "guard:aid-and-reward:iris:001",
+                "modifier": "ward"
+              },
+              "id": "condition:29:guard:aid-and-reward:iris:001:4:ward",
+              "source": {
+                "kind": "condition",
+                "id": "guard:aid-and-reward:iris:001"
+              },
+              "mode": "character",
+              "target": {
+                "kind": "character",
+                "id": "char:iris"
+              },
+              "stat": "defense",
+              "amount": 3
+            }
+          ]
+        },
+        "id": "event:1:3",
+        "revision": 1,
+        "request_id": "m5:c04:attempt:001",
+        "actor": {
+          "kind": "character",
+          "id": "char:rowan"
+        },
+        "operation": 0,
+        "kind": "ConditionApplied"
+      },
+      {
+        "ability_invoked": {
+          "ability": "ability:aid-and-reward",
+          "arguments": [
+            {
+              "name": "donor",
+              "value": {
+                "character": "char:rowan"
+              }
+            },
+            {
+              "name": "gift",
+              "value": {
+                "item": "item:reward"
+              }
+            },
+            {
+              "name": "guard_id",
+              "value": {
+                "condition_id": "guard:aid-and-reward:iris:001"
+              }
+            },
+            {
+              "name": "heal_amount",
+              "value": {
+                "integer": 4
+              }
+            },
+            {
+              "name": "recipient",
+              "value": {
+                "character": "char:iris"
+              }
+            }
+          ]
+        },
+        "id": "event:1:4",
+        "revision": 1,
+        "request_id": "m5:c04:attempt:001",
+        "actor": {
+          "kind": "character",
+          "id": "char:rowan"
+        },
+        "operation": 0,
+        "kind": "AbilityInvoked"
+      }
+    ]
+  },
+  "world": {
+    "condition_effects": [
+      {
+        "condition_origin": {
+          "instance": "guard:aid-and-reward:iris:001",
+          "modifier": "ward"
+        },
+        "id": "condition:29:guard:aid-and-reward:iris:001:4:ward",
+        "source": {
+          "kind": "condition",
+          "id": "guard:aid-and-reward:iris:001"
+        },
+        "mode": "character",
+        "target": {
+          "kind": "character",
+          "id": "char:iris"
+        },
+        "stat": "defense",
+        "amount": 3
+      }
+    ],
+    "revision": 1,
+    "ability_definitions": [
+      {
+        "id": "ability:aid-and-reward",
+        "name": "AidAndReward",
+        "parameters": [
+          {
+            "id": "donor",
+            "kind": "character"
+          },
+          {
+            "id": "recipient",
+            "kind": "character"
+          },
+          {
+            "id": "gift",
+            "kind": "item"
+          },
+          {
+            "id": "heal_amount",
+            "kind": "int"
+          },
+          {
+            "id": "guard_id",
+            "kind": "condition_id"
+          }
+        ],
+        "steps": [
+          {
+            "heal": {
+              "target": {
+                "parameter": "recipient"
+              },
+              "resource": "hp",
+              "amount": {
+                "parameter": "heal_amount"
+              }
+            }
+          },
+          {
+            "transfer": {
+              "item": {
+                "parameter": "gift"
+              },
+              "from": {
+                "parameter": "donor"
+              },
+              "to": {
+                "parameter": "recipient"
+              }
+            }
+          },
+          {
+            "apply_condition": {
+              "instance": {
+                "parameter": "guard_id"
+              },
+              "type": "condition:guarded",
+              "target": {
+                "parameter": "recipient"
+              },
+              "source": {
+                "kind": "location",
+                "id": "loc:shrine"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "condition_definitions": [
+      {
+        "id": "condition:guarded",
+        "instances": "unique",
+        "modifiers": [
+          {
+            "id": "ward",
+            "stat": "defense",
+            "fixed": 3
+          }
+        ]
+      },
+      {
+        "id": "condition:marked",
+        "instances": "coexist",
+        "modifiers": null
+      }
+    ],
+    "conditions": [
+      {
+        "id": "guard:aid-and-reward:iris:001",
+        "type": "condition:guarded",
+        "target": "char:iris",
+        "source": {
+          "kind": "location",
+          "id": "loc:shrine"
+        },
+        "applied_revision": 1,
+        "cause": {
+          "ability_origin": {
+            "ability": "ability:aid-and-reward",
+            "step": 2
+          },
+          "request_id": "m5:c04:attempt:001",
+          "operation": 0,
+          "actor": {
+            "kind": "character",
+            "id": "char:rowan"
+          }
+        }
+      }
+    ],
+    "rules": {
+      "transfer": "unequips",
+      "wear": "any"
+    },
+    "characters": [
+      {
+        "id": "char:iris",
+        "name": "Iris",
+        "location": "loc:courtyard",
+        "stats": {
+          "defense": 10
+        },
+        "resources": {
+          "hp": {
+            "current": 10,
+            "minimum": 0,
+            "maximum": 20
+          }
+        }
+      },
+      {
+        "id": "char:rowan",
+        "name": "Rowan",
+        "location": "loc:courtyard",
+        "stats": {
+          "defense": 8
+        },
+        "resources": {
+          "hp": {
+            "current": 9,
+            "minimum": 0,
+            "maximum": 12
+          }
+        }
+      },
+      {
+        "id": "char:sol",
+        "name": "Sol",
+        "location": "loc:shrine",
+        "stats": {
+          "defense": 7
+        },
+        "resources": {
+          "hp": {
+            "current": 11,
+            "minimum": 0,
+            "maximum": 15
+          }
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "item:reward",
+        "name": "Reward",
+        "owner": "char:iris",
+        "wearer": ""
+      },
+      {
+        "id": "item:shield",
+        "name": "Shield",
+        "owner": "char:iris",
+        "wearer": "char:sol"
+      },
+      {
+        "id": "item:token",
+        "name": "Token",
+        "owner": "char:rowan",
+        "wearer": ""
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc:courtyard",
+        "name": "Courtyard"
+      },
+      {
+        "id": "loc:shrine",
+        "name": "Shrine"
+      }
+    ],
+    "effects": [
+      {
+        "id": "effect:shield",
+        "source": {
+          "kind": "item",
+          "id": "item:shield"
+        },
+        "mode": "worn",
+        "target": {
+          "kind": "item",
+          "id": "item:shield"
+        },
+        "stat": "defense",
+        "amount": 2
+      }
+    ],
+    "relationships": []
+  }
+}

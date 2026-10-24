@@ -1,0 +1,69 @@
+// Finite open-ground melee rules. This does not supply movement, spells,
+// mastery, ranged attacks, recovery resources, rewards or arbitrary encounter AI.
+rules { transfer unequips; wear any; }
+clock "seconds" at 0;
+location "gate" named "Open gate approach";
+character "tess" named "Tess" at "gate" {
+ stat "strength" = 16; stat "dexterity" = 14; stat "proficiency" = 2;
+ stat "defense" = 10; stat "initiative" = 2;
+ resource "hp" = 20 min 0 max 20;
+}
+character "lyra" named "Lyra" at "gate" {
+ stat "strength" = 12; stat "dexterity" = 16; stat "proficiency" = 2;
+ stat "defense" = 10; stat "initiative" = 3;
+ resource "hp" = 14 min 0 max 14;
+}
+character "raider" named "Gate raider" at "gate" {
+ stat "strength" = 12; stat "dexterity" = 12; stat "proficiency" = 2;
+ stat "defense" = 10; stat "initiative" = 1;
+ resource "hp" = 18 min 0 max 18;
+}
+condition type "martial" { instances unique; }
+condition type "advantage" { instances coexist; }
+condition type "disadvantage" { instances coexist; }
+condition type "resist-slashing" { instances coexist; }
+condition "tess-martial" of "martial" to "tess";
+condition "lyra-martial" of "martial" to "lyra";
+condition "raider-martial" of "martial" to "raider";
+relation character "lyra" "party-member" character "tess" = 1;
+equipment "nql-equipment-v1" {
+ slot "hand" capacity 2;
+ derive stat "defense" { term stat "dexterity" offset -10 divide 2; }
+ definition "longsword" named "Longsword" {
+  description "Martial melee weapon. Slashing1d8; Versatile1d10 in two hands. Sap requires an unlocked mastery feature; this build has none.";
+  default "one";
+  mode "one" {
+   occupy "hand" by 1;
+   attack "slash" named "Longsword slash" {
+    hit { constant 0; term stat "strength" offset -10 divide 2; term stat "proficiency" offset 0 divide 1 requires "martial"; }
+    damage "slashing" dice 1 sides 8 { constant 0; term stat "strength" offset -10 divide 2; }
+    melee reach 5 stat "strength";
+   }
+  }
+  mode "two" {
+   occupy "hand" by 2;
+   attack "slash" named "Two-handed longsword slash" {
+    hit { constant 0; term stat "strength" offset -10 divide 2; term stat "proficiency" offset 0 divide 1 requires "martial"; }
+    damage "slashing" dice 1 sides 10 { constant 0; term stat "strength" offset -10 divide 2; }
+    melee reach 5 stat "strength";
+   }
+  }
+ }
+}
+item "tess-sword" named "Longsword" { owner "tess"; wearer "tess"; definition "longsword"; mode "one"; }
+item "lyra-sword" named "Longsword" { owner "lyra"; wearer "lyra"; definition "longsword"; mode "one"; }
+item "raider-sword" named "Longsword" { owner "raider"; wearer "raider"; definition "longsword"; mode "one"; }
+battle "nql-battle-v1" {
+ health "hp";
+ defense "defense";
+ initiative "initiative";
+ party "tess" relation "party-member" strength 1;
+ roll sides 20 miss 1 critical 20 multiply 2;
+ grid "feet" square 5;
+ clock "seconds" round 6;
+ seed 12 34;
+ zero protected stable_down opposition dead;
+ roll_condition "advantage" on attacker advantage;
+ roll_condition "disadvantage" on attacker disadvantage;
+ damage_condition "resist-slashing" kind "slashing" resistance;
+}

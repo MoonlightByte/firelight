@@ -1,0 +1,6 @@
+// Proficiencies are Condition instances: gaining one is an apply, losing one
+// is a remove. The bard's Athletics proficiency replaces its Jack of All
+// Trades bonus there.
+apply condition "char:fighter:prof:skill:stealth" of "prof:skill:stealth" to "char:fighter";
+apply condition "char:fighter:prof:skill:insight" of "prof:skill:insight" to "char:fighter";
+apply condition "char:bard:prof:skill:athletics" of "prof:skill:athletics" to "char:bard";

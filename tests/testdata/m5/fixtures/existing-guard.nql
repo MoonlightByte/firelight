@@ -1,0 +1,13 @@
+rules { transfer unequips; wear any; }
+location "loc:courtyard" named "Courtyard";
+location "loc:shrine" named "Shrine";
+character "char:iris" named "Iris" at "loc:courtyard" { stat "defense" = 10; resource "hp" = 6 min 0 max 20; }
+character "char:rowan" named "Rowan" at "loc:courtyard" { stat "defense" = 8; resource "hp" = 9 min 0 max 12; }
+character "char:sol" named "Sol" at "loc:shrine" { stat "defense" = 7; resource "hp" = 11 min 0 max 15; }
+item "item:shield" named "Shield" { owner "char:iris"; wearer "char:sol"; }
+item "item:token" named "Token" { owner "char:rowan"; }
+item "item:reward" named "Reward" { owner "char:rowan"; }
+effect "effect:shield" from item "item:shield" on worn "item:shield" stat "defense" add 2;
+condition type "condition:guarded" { instances unique; modifier "ward" stat "defense" add 3; }
+condition type "condition:marked" { instances coexist; }
+condition "genesis:guard" of "condition:guarded" to "char:iris" from location "loc:shrine";

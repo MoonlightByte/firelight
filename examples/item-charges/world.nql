@@ -1,0 +1,12 @@
+// Synthetic example data, not a published game item.
+rules { transfer unequips; wear any; }
+location "loc:camp" named "Camp";
+character "char:ada" named "Ada" at "loc:camp" {}
+item type "itemdef:wand-of-sparks" named "Wand of sparks" {
+ description "A charred birch wand.";
+ kind "wand"; magical true;
+ charges 7;
+}
+item "item:wand-1" from "itemdef:wand-of-sparks" {
+ owner "char:ada"; custody character "char:ada"; charges 3 of 7;
+}

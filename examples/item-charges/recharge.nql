@@ -1,0 +1,15 @@
+// Synthetic example data, not a published game item.
+rules { transfer unequips; wear any; }
+clock "second" at 120000;
+location "loc:camp" named "Camp";
+character "char:ada" named "Ada" at "loc:camp" {}
+item type "itemdef:staff-of-embers" named "Staff of embers" {
+ description "A blackened oak staff.";
+ kind "staff"; magical true;
+ charges 10;
+ recharge every 86400 at 21600 dice 1 sides 6 plus 4;
+ exhausted roll 20 destroy 1;
+}
+item "item:staff-1" from "itemdef:staff-of-embers" {
+ owner "char:ada"; custody character "char:ada"; charges 0 of 10 since 100000 seed 6 2;
+}

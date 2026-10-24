@@ -1,0 +1,141 @@
+// Equipment fixture: slots, derived defense, armor and weapon modes over
+// authored stats. Time, armor-training penalties and attack execution are
+// outside this fixture.
+rules { transfer unequips; wear any; }
+location "loc:hall" named "Guild Hall";
+character "char:a" named "Alex" at "loc:hall" {
+ stat "strength" = 16;
+ stat "dexterity" = 14;
+ stat "proficiency" = 2;
+ stat "defense" = 10;
+ resource "hp" = 8 min 0 max 10;
+}
+character "char:b" named "Alex" at "loc:hall" {
+ stat "strength" = 12;
+ stat "dexterity" = 16;
+ stat "proficiency" = 2;
+ stat "defense" = 10;
+ resource "hp" = 6 min 0 max 10;
+}
+condition type "training:martial" { instances unique; }
+condition type "training:light" { instances unique; }
+condition type "training:medium" { instances unique; }
+condition type "training:shield" { instances unique; }
+condition type "guarded" {
+ instances coexist;
+ modifier "ward" stat "defense" add 3;
+}
+condition "training:a:martial" of "training:martial" to "char:a";
+condition "training:a:light" of "training:light" to "char:a";
+condition "training:a:medium" of "training:medium" to "char:a";
+condition "training:a:shield" of "training:shield" to "char:a";
+condition "training:b:martial" of "training:martial" to "char:b";
+condition "training:b:light" of "training:light" to "char:b";
+condition "training:b:medium" of "training:medium" to "char:b";
+condition "training:b:shield" of "training:shield" to "char:b";
+
+equipment "nql-equipment-v1" {
+ slot "hand" capacity 2;
+ slot "body" capacity 1;
+ slot "shield" capacity 1;
+ derive stat "defense" {
+  term stat "dexterity" offset -10 divide 2;
+ }
+ definition "gear:longsword" named "Longsword" {
+  description "Martial melee weapon. Slashing damage: 1d8 in one hand; Versatile 1d10 in two hands. Mastery: Sap (not yet executed by this foundation).";
+  default "one";
+  mode "one" {
+   occupy "hand" by 1;
+   attack "slash" named "Longsword slash" {
+    hit {
+     constant 0;
+     term stat "strength" offset -10 divide 2;
+     term stat "proficiency" offset 0 divide 1 requires "training:martial";
+    }
+    damage "slashing" dice 1 sides 8 {
+     constant 0;
+     term stat "strength" offset -10 divide 2;
+    }
+   }
+  }
+  mode "two" {
+   occupy "hand" by 2;
+   attack "slash" named "Two-handed longsword slash" {
+    hit {
+     constant 0;
+     term stat "strength" offset -10 divide 2;
+     term stat "proficiency" offset 0 divide 1 requires "training:martial";
+    }
+    damage "slashing" dice 1 sides 10 {
+     constant 0;
+     term stat "strength" offset -10 divide 2;
+    }
+   }
+  }
+ }
+ definition "gear:leather" named "Leather Armor" {
+  description "Light armor. Defense 11 plus Dexterity modifier. Donning and doffing each take one minute; timing and untrained-wear consequences remain pending integration dependencies.";
+  default "worn";
+  mode "worn" {
+   occupy "body" by 1;
+   base stat "defense" {
+    constant 11;
+    term stat "dexterity" offset -10 divide 2;
+   }
+  }
+ }
+ definition "gear:chain-shirt" named "Chain Shirt" {
+  description "Medium armor. Defense 13 plus Dexterity modifier, capped above at +2. Donning takes five minutes and doffing takes one minute; timing and untrained-wear consequences remain pending integration dependencies.";
+  default "worn";
+  mode "worn" {
+   occupy "body" by 1;
+   base stat "defense" {
+    constant 13;
+    term stat "dexterity" offset -10 divide 2 ceiling 2;
+   }
+  }
+ }
+ definition "gear:shield" named "Shield" {
+  description "A shield occupies one hand. A wearer with shield training gains +2 Defense. Only one shield can grant its benefit. Ready/stow timing is pending integration.";
+  default "held";
+  mode "held" {
+   occupy "hand" by 1;
+   occupy "shield" by 1;
+   modifier "defense" stat "defense" add 2 requires "training:shield";
+  }
+ }
+}
+
+item "item:sword:1" named "Longsword" {
+ owner "char:a"; wearer "char:a"; definition "gear:longsword"; mode "one";
+}
+item "item:sword:2" named "Longsword" {
+ owner "char:a"; definition "gear:longsword";
+}
+item "item:leather:1" named "Leather Armor" {
+ owner "char:a"; wearer "char:a"; definition "gear:leather"; mode "worn";
+}
+item "item:chain:1" named "Chain Shirt" {
+ owner "char:b"; definition "gear:chain-shirt";
+}
+item "item:shield:1" named "Shield" {
+ owner "char:a"; wearer "char:a"; definition "gear:shield"; mode "held";
+}
+item "item:shield:2" named "Shield" {
+ owner "char:b"; definition "gear:shield";
+}
+relation character "char:a" "trust" character "char:b" = 4;
+
+ability "handoff-ready" named "HandOff and ready" {
+ parameter "item" item;
+ parameter "giver" character;
+ parameter "recipient" character;
+ unequip param "item";
+ transfer param "item" from param "giver" to param "recipient";
+ equip param "item" on param "recipient";
+}
+ability "ready-two" named "Ready in two hands" {
+ parameter "item" item;
+ parameter "wearer" character;
+ equip param "item" on param "wearer" mode "two";
+}

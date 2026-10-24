@@ -1,0 +1,47 @@
+// CP1 playable loadout: original native content, continued by the Alpha release.
+rules { transfer unequips; wear any; }
+location "loc:camp" named "Camp";
+location "loc:path" named "Old Path";
+location "loc:court" named "Courtyard";
+location "loc:beacon" named "Beacon";
+character "char:orin" named "Orin" at "loc:camp" {
+ stat "attack" = 4; stat "defense" = 10;
+ resource "hp" = 16 min 0 max 16; resource "focus" = 6 min 0 max 6;
+}
+character "char:lyra" named "Lyra" at "loc:camp" {
+ stat "attack" = 3; stat "defense" = 11;
+ resource "hp" = 14 min 0 max 14; resource "focus" = 8 min 0 max 8;
+}
+character "char:tess" named "Tess" at "loc:camp" {
+ stat "attack" = 5; stat "defense" = 9;
+ resource "hp" = 15 min 0 max 15; resource "focus" = 5 min 0 max 5;
+}
+item "item:shield" named "Bronze Shield" { owner "char:orin"; wearer "char:lyra"; }
+item "item:coat" named "Coat" { owner "char:lyra"; }
+item "item:staff" named "Staff" { owner "char:lyra"; }
+item "item:blade" named "Blade" { owner "char:orin"; }
+item "item:knife" named "Knife" { owner "char:tess"; }
+item "item:rope" named "Rope" { owner "char:tess"; }
+item "item:lantern" named "Lantern" { owner "char:orin"; }
+item "item:flask" named "Flask" { owner "char:lyra"; }
+item "item:cloak" named "Coat" { owner "char:tess"; }
+item "item:token" named "Token" { owner "char:orin"; }
+effect "effect:shield" from item "item:shield" on worn "item:shield" stat "defense" add 2;
+ability "ability:handoff-equip" named "HandOff and Equip" {
+ parameter "item" item;
+ parameter "giver" character;
+ parameter "recipient" character;
+ transfer param "item" from param "giver" to param "recipient";
+ equip param "item" on param "recipient";
+}
+ability "ability:change-loadout" named "Change Wearer" {
+ parameter "item" item;
+ parameter "wearer" character;
+ unequip param "item";
+ equip param "item" on param "wearer";
+}
+ability "ability:equip" named "Equip" {
+ parameter "item" item;
+ parameter "wearer" character;
+ equip param "item" on param "wearer";
+}

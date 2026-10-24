@@ -1,0 +1,6 @@
+invoke "ability:two-person-care" {
+    "first" = character "char:iris";
+    "first_amount" = int 4;
+    "second" = character "char:rowan";
+    "second_amount" = int 5;
+};

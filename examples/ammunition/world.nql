@@ -1,0 +1,12 @@
+// SRD 5.2.1 ammunition as engine stock; docs/AMMUNITION.md is the guide. A
+// ranger and a fighter carry arrows and crossbow bolts, and the world recovers
+// half of what a fight spent, rounded down.
+rules { transfer unequips; wear any; recovery 1 of 2; }
+
+location "loc:road" named "The road";
+
+character "char:ranger" named "Ranger" at "loc:road" { }
+character "char:fighter" named "Fighter" at "loc:road" { }
+
+item "item:arrows" named "Arrows" { owner "char:ranger"; custody character "char:ranger"; quantity 20; }
+item "item:bolts" named "Crossbow Bolts" { owner "char:fighter"; custody character "char:fighter"; quantity 20; }

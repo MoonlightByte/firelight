@@ -1,0 +1,100 @@
+// Stat explanations under latest selection, held and included types and
+// requires gates: tests/explain_golden_test.go pins every one of them.
+rules { transfer unequips; wear any; }
+location "loc:hall" named "Hall";
+character "char:a" named "Ada" at "loc:hall" {
+ stat "dexterity" = 16; stat "level" = 8; stat "proficiency" = 3;
+ stat "defense" = 10; stat "speed" = 30; stat "initiative" = 2; stat "save:dex" = 0;
+ resource "hp" = 20 min 0 max 20;
+}
+character "char:b" named "Bo" at "loc:hall" {
+ stat "dexterity" = 12; stat "level" = 3; stat "proficiency" = 2;
+ stat "defense" = 10; stat "speed" = 25; stat "initiative" = 0; stat "save:dex" = 0;
+ resource "hp" = 0 min 0 max 12;
+}
+character "char:c" named "Cy" at "loc:hall" {
+ stat "dexterity" = 9; stat "level" = 1; stat "proficiency" = 2;
+ stat "defense" = 10; stat "speed" = 30; stat "initiative" = 1; stat "save:dex" = 0;
+ resource "hp" = 5 min 0 max 9;
+}
+condition type "trained" { instances unique; }
+condition type "prof:dex" { instances unique; }
+condition type "dazed" { instances coexist; }
+condition type "stunned" { instances coexist; includes "dazed"; modifier "dex" stat "save:dex" roll fail; }
+condition type "down" { instances coexist; held_at_minimum "hp"; includes "dazed"; modifier "speed" stat "speed" at most 0; modifier "init" stat "initiative" roll disadvantage; }
+condition type "bless" { instances coexist; modifier "d" stat "defense" add 1; }
+// Latest selection: the newest instance on a target supplies every numeric
+// modifier of its type; the others are suppressed, bounds and rolls alike.
+condition type "boon" { instances coexist; modifier_selection latest; modifier "d" stat "defense" add magnitude; modifier "floor" stat "speed" at least magnitude; modifier "init" stat "initiative" roll advantage; }
+condition type "hex" { instances coexist; modifier_selection latest; modifier "cap" stat "speed" at most 20; modifier "dex" stat "dexterity" roll disadvantage; }
+condition "a:trained" of "trained" to "char:a";
+condition "a:prof" of "prof:dex" to "char:a";
+condition "a:bless:1" of "bless" to "char:a";
+condition "a:bless:2" of "bless" to "char:a";
+condition "a:boon:1" of "boon" to "char:a" magnitude 2;
+condition "a:boon:2" of "boon" to "char:a" magnitude 3;
+condition "a:hex:1" of "hex" to "char:a";
+condition "a:hex:2" of "hex" to "char:a";
+condition "b:boon:1" of "boon" to "char:b" magnitude 1;
+condition "c:hex:1" of "hex" to "char:c";
+condition "c:trained" of "trained" to "char:c";
+equipment "nql-equipment-v1" {
+ slot "hand" capacity 2;
+ slot "body" capacity 1;
+ derive stat "defense" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "level" offset 0 divide 4 requires "trained" unless "dazed";
+ }
+ derive stat "save:dex" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "proficiency" offset 0 divide 1 requires "prof:dex";
+ }
+ definition "gear:mail" named "Mail" {
+  description "Body armor: base defense 13 plus Dexterity, at most +2.";
+  default "worn";
+  mode "worn" {
+   occupy "body" by 1;
+   base stat "defense" {
+    constant 13;
+    term stat "dexterity" offset -10 divide 2 ceiling 2;
+   }
+   modifier "slow" stat "speed" add -5 requires "dazed";
+  }
+ }
+ definition "gear:buckler" named "Buckler" {
+  description "A small shield.";
+  default "held";
+  mode "held" {
+   occupy "hand" by 1;
+   modifier "block" stat "defense" add 1 requires "trained";
+   modifier "brace" stat "save:dex" add 1 requires "dazed";
+  }
+ }
+ definition "gear:blade" named "Blade" {
+  description "A light blade.";
+  default "one";
+  mode "one" {
+   occupy "hand" by 1;
+   attack "cut" named "Blade cut" {
+    hit {
+     constant 0;
+     term stat "dexterity" offset -10 divide 2;
+     term stat "proficiency" offset 0 divide 1 requires "trained";
+    }
+    damage "slashing" dice 1 sides 6 {
+     constant 0;
+     term stat "dexterity" offset -10 divide 2 unless "dazed";
+    }
+   }
+  }
+ }
+}
+item "item:mail:a" named "Mail" { owner "char:a"; wearer "char:a"; definition "gear:mail"; mode "worn"; }
+item "item:buckler:a" named "Buckler" { owner "char:a"; wearer "char:a"; definition "gear:buckler"; mode "held"; }
+item "item:blade:a" named "Blade" { owner "char:a"; wearer "char:a"; definition "gear:blade"; mode "one"; }
+item "item:buckler:b" named "Buckler" { owner "char:b"; definition "gear:buckler"; }
+item "item:blade:c" named "Blade" { owner "char:c"; wearer "char:c"; definition "gear:blade"; mode "one"; }
+effect "fx:mail" from item "item:mail:a" on worn "item:mail:a" stat "defense" add 1;
+effect "fx:buckler" from item "item:buckler:b" on worn "item:buckler:b" stat "save:dex" add 2;
+effect "fx:bless" from character "char:b" on character "char:a" stat "defense" add 2;
+effect "fx:quick" from character "char:c" on character "char:c" stat "initiative" add 1;

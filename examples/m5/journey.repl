@@ -1,0 +1,8 @@
+invoke "ability:two-person-care" { "first" = character "char:iris"; "first_amount" = int 4; "second" = character "char:rowan"; "second_amount" = int 5; };
+invoke "ability:paired-conditions" { "guard_id" = condition_id "journey:iris:guard"; "mark_id" = condition_id "journey:iris:mark"; "target" = character "char:iris"; };
+invoke "ability:ownership-exchange" { "left" = character "char:iris"; "outgoing" = item "item:shield"; "returning" = item "item:token"; "right" = character "char:rowan"; };
+invoke "ability:aid-and-reward" { "donor" = character "char:rowan"; "gift" = item "item:reward"; "guard_id" = condition_id "journey:sol:guard"; "heal_amount" = int 4; "recipient" = character "char:sol"; };
+remove condition "journey:iris:guard" from "char:iris";
+remove condition "journey:sol:guard" from "char:sol";
+:inspect
+:quit

@@ -1,0 +1,5 @@
+ability "ability:double-pay" named "Double Pay" {
+ parameter "payer" character;
+ spend param "payer" resource "focus" by 2;
+ spend param "payer" resource "focus" by 2;
+}

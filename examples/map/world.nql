@@ -1,0 +1,22 @@
+rules { transfer unequips; wear any; }
+clock "second" at 28800;
+location "loc:valley/B01" named "Trailhead";
+location "loc:valley/B02" named "Ranger Outpost";
+location "loc:valley/B03" named "Old Mill";
+location "loc:valley/B04" named "Watchtower";
+location "loc:keep/A01" named "Keep Gate";
+character "char:ada" named "Ada" at "loc:valley/B01" { }
+character "char:bram" named "Bram" at "loc:valley/B01" { }
+map {
+ route "loc:valley/B01" to "loc:valley/B02" ticks 300 both;
+ route "loc:valley/B02" to "loc:valley/B03" ticks 300 both;
+ route "loc:valley/B01" to "loc:valley/B03" ticks 900 both;
+ route "loc:valley/B03" to "loc:valley/B04" ticks 600 both;
+ route "loc:valley/B04" to "loc:keep/A01" ticks 1800 both;
+ party "char:ada";
+ party "char:bram";
+ visited "loc:valley/B01";
+ visited "loc:valley/B02";
+ visited "loc:valley/B03";
+ hazard "loc:valley/B03";
+}

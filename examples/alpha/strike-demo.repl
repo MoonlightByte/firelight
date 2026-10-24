@@ -1,0 +1,4 @@
+invoke "ability:to-path" { "actor" = character "char:orin"; };
+invoke "ability:focused-strike" { "actor" = character "char:orin"; "target" = character "char:scout"; };
+:inspect
+:quit

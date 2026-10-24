@@ -1,0 +1,2 @@
+advance time by 3600;
+complete quest "quest:valley/tower" ahead because "the party slipped past the mill by night" impact "the beacon is lit";

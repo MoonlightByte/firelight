@@ -1,0 +1,2 @@
+// The same swing with the player's damage: two d8 for the critical, 4 and 7.
+attack "char:ada" profile to_hit 5 damage 1d8+3 kind "slashing" against "occ:valley/B03/goblin-1" faces 20 critical damage 11;

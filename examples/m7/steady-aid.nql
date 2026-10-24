@@ -1,0 +1,5 @@
+invoke "ability:steady-aid" {
+ "payer" = character "char:orin";
+ "target" = character "char:lyra";
+ "guard_id" = condition_id "guard:m7:one";
+};

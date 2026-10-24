@@ -1,0 +1,12 @@
+ability "ability:aid-and-reward" named "AidAndReward" {
+    parameter "donor" character;
+    parameter "recipient" character;
+    parameter "gift" item;
+    parameter "heal_amount" int;
+    parameter "guard_id" condition_id;
+
+    heal param "recipient" resource "hp" by param "heal_amount";
+    transfer param "gift" from param "donor" to param "recipient";
+    apply condition param "guard_id" of "condition:guarded" to param "recipient"
+        from location "loc:shrine";
+}

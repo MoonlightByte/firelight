@@ -1,0 +1,10 @@
+invoke "aid" {
+ "target" = character "char:ada";
+ "amount" = int 4;
+ "instance" = condition_id "blessing:one";
+};
+invoke "handoff" {
+ "item" = item "item:shield";
+ "giver" = character "char:bea";
+ "recipient" = character "char:cy";
+};

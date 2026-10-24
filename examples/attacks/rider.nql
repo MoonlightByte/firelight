@@ -1,0 +1,4 @@
+// A rider outside the attack, 7 bludgeoning after the save, at the warded
+// skeleton: the ward's resistance halves it to 3, the skeleton's
+// vulnerability doubles that to 6.
+damage "occ:valley/B03/skeleton-1" resource "hp" by 7 kind "bludgeoning";

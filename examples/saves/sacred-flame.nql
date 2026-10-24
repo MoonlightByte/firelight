@@ -1,0 +1,2 @@
+// Eirik's Sacred Flame: the spider saves, and a saved Sacred Flame does nothing.
+save "char:eirik" profile stat "save:dexterity" dc 15 damage 2d8 kind "radiant" success none against "occ:valley/B03/spider-1" faces 19 damage 13;

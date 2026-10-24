@@ -1,0 +1,3 @@
+count occupant "occ:valley/B03/goblins" as 3;
+resolve occupant "occ:valley/B03/goblins" as defeated by 2;
+resolve occupant "occ:valley/B03/goblins" as fled;

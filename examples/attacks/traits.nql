@@ -1,0 +1,4 @@
+// Ada's mace, 1d6+3 bludgeoning, at the warded skeleton: she rolled 14 and
+// 4 on the damage die. 4 + 3 = 7; the ward's resistance halves it to 3, the
+// skeleton's vulnerability doubles that to 6.
+attack "char:ada" profile to_hit 5 damage 1d6+3 kind "bludgeoning" against "occ:valley/B03/skeleton-1" faces 14 damage 4;

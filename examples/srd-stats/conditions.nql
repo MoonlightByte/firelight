@@ -1,0 +1,6 @@
+apply condition "char:fighter:grappled:ogre" of "state:grappled" to "char:fighter" from character "char:rogue";
+apply condition "char:fighter:exhaustion:1" of "state:exhaustion" to "char:fighter";
+apply condition "char:fighter:exhaustion:2" of "state:exhaustion" to "char:fighter";
+apply condition "char:fighter:gauntlets" of "item:gauntlets-of-ogre-power" to "char:fighter";
+apply condition "char:bard:belt" of "item:belt-of-giant-strength" to "char:bard" magnitude 21;
+damage "char:bard" resource "hp" by 40;

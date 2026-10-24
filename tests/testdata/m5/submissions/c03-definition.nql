@@ -1,0 +1,9 @@
+ability "ability:ownership-exchange" named "OwnershipExchange" {
+    parameter "left" character;
+    parameter "right" character;
+    parameter "outgoing" item;
+    parameter "returning" item;
+
+    transfer param "outgoing" from param "left" to param "right";
+    transfer param "returning" from param "right" to param "left";
+}

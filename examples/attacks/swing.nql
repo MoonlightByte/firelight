@@ -1,0 +1,5 @@
+// The goblin's scimitar, from its stat block: +4 to hit, 1d6+2 slashing. The
+// host rolled 17 against Ada's 16 and sends both preroll totals; the hit uses
+// `damage`, and the critical total is recorded as unused. Ada's temporary
+// hit points absorb the damage first; her concentration check takes face 12.
+attack "occ:valley/B03/goblin-1" profile to_hit 4 damage 1d6+2 kind "slashing" against "char:ada" faces 17 damage 4 critical damage 7 faces "char:ada:concentration" 12;

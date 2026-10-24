@@ -1,0 +1,9 @@
+ability "ability:two-person-care" named "TwoPersonCare" {
+    parameter "first" character;
+    parameter "first_amount" int;
+    parameter "second" character;
+    parameter "second_amount" int;
+
+    heal param "first" resource "hp" by param "first_amount";
+    heal param "second" resource "hp" by param "second_amount";
+}

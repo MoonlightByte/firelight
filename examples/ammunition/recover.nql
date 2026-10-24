@@ -1,0 +1,4 @@
+// After the fight the ranger spends a minute searching and recovers half of
+// six. The fighter moves on without searching and forfeits the bolts.
+recover "item:arrows" from "char:ranger";
+recover "item:bolts" from "char:fighter" by 0;

@@ -1,0 +1,31 @@
+rules { transfer unequips; wear any; }
+location "loc:hall" named "Hall";
+location "loc:shrine" named "Shrine";
+character "char:ada" named "Ada" at "loc:hall" {
+ stat "defense" = 10;
+ stat "resolve" = 8;
+ resource "hp" = 20 min 0 max 30;
+}
+character "char:bea" named "Bea" at "loc:hall" { stat "defense" = 10; stat "resolve" = 7; }
+character "char:cy" named "Cy" at "loc:shrine" { stat "defense" = 9; }
+item "item:shield" named "Shield" { owner "char:bea"; wearer "char:ada"; }
+item "item:venom" named "Venom" { owner "char:cy"; }
+effect "shield" from item "item:shield" on worn "item:shield" stat "defense" add 2;
+relation character "char:ada" "trust" character "char:bea" = 4;
+relation character "char:cy" "secret_debt" character "char:ada" = 417;
+condition type "blessing" {
+ instances coexist;
+ modifier "ward" stat "defense" add magnitude;
+}
+condition type "marked" { instances coexist; }
+condition type "unique-mark" { instances unique; }
+condition type "steady" {
+ instances coexist;
+ modifier "ward" stat "defense" add 3;
+ modifier "resolve" stat "resolve" add 1;
+}
+// Valid definition; application requires a target that declares this stat.
+condition type "incompatible" {
+ instances coexist;
+ modifier "missing" stat "unavailable" add 1;
+}

@@ -1,0 +1,10 @@
+apply condition "char:fighter:poisoned" of "state:poisoned" to "char:fighter";
+check "char:fighter" stat "skill:athletics" die 20 against 15 faces 17 6;
+check "char:bard" stat "save:dexterity" die 20 against 13 advantage faces 4 15;
+check "char:rogue" stat "skill:stealth" die 20 against 25;
+apply condition "char:rogue:restrained" of "state:restrained" to "char:rogue";
+check "char:rogue" stat "save:dexterity" die 20 against 15 advantage faces 12;
+damage "char:bard" resource "hp" by 40;
+check "char:bard" stat "save:dexterity" die 20 against 13;
+check "char:bard" stat "save:wisdom" die 20 against 13 faces 11;
+check "char:fighter" stat "initiative" die 20;

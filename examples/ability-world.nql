@@ -1,0 +1,37 @@
+rules { transfer unequips; wear any; }
+location "loc:hall" named "Hall";
+location "loc:shrine" named "Shrine";
+character "char:ada" named "Ada" at "loc:hall" {
+ stat "defense" = 10;
+ resource "hp" = 10 min 0 max 20;
+}
+character "char:bea" named "Bea" at "loc:hall" {
+ stat "defense" = 10;
+ resource "hp" = 10 min 0 max 20;
+}
+character "char:cy" named "Cy" at "loc:shrine" {
+ stat "defense" = 9;
+ resource "hp" = 10 min 0 max 20;
+}
+item "item:shield" named "Shield" { owner "char:bea"; wearer "char:ada"; }
+item "item:parcel" named "Parcel" { owner "char:ada"; }
+effect "shield" from item "item:shield" on worn "item:shield" stat "defense" add 2;
+relation character "char:ada" "trust" character "char:bea" = 4;
+relation character "char:cy" "secret_debt" character "char:ada" = 417;
+condition type "blessed" {
+ instances coexist;
+ modifier "ward" stat "defense" add 3;
+}
+ability "aid" named "Aid" {
+ parameter "target" character;
+ parameter "amount" int;
+ parameter "instance" condition_id;
+ heal param "target" resource "hp" by param "amount";
+ apply condition param "instance" of "blessed" to param "target" from location "loc:shrine";
+}
+ability "handoff" named "HandOff" {
+ parameter "item" item;
+ parameter "giver" character;
+ parameter "recipient" character;
+ transfer param "item" from param "giver" to param "recipient";
+}

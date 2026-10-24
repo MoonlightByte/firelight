@@ -1,0 +1,235 @@
+// The Beacon Road — original, offline native Alpha adventure.
+// All numbers, grants, routes, equipment consequences and Ability bodies are authored.
+rules { transfer unequips; wear any; }
+location "loc:camp" named "Camp by the River";
+location "loc:path" named "Thorn Path";
+location "loc:court" named "Broken Courtyard";
+location "loc:beacon" named "Silent Beacon";
+character "char:orin" named "Orin" at "loc:camp" {
+ stat "attack" = 4; stat "defense" = 10;
+ resource "hp" = 16 min 0 max 16; resource "focus" = 6 min 0 max 6;
+}
+character "char:lyra" named "Lyra" at "loc:camp" {
+ stat "attack" = 3; stat "defense" = 11;
+ resource "hp" = 14 min 0 max 14; resource "focus" = 8 min 0 max 8;
+}
+character "char:tess" named "Tess" at "loc:camp" {
+ stat "attack" = 5; stat "defense" = 9;
+ resource "hp" = 15 min 0 max 15; resource "focus" = 5 min 0 max 5;
+}
+character "char:scout" named "Thorn Scout" at "loc:path" {
+ stat "attack" = 4; stat "defense" = 12;
+ resource "hp" = 8 min 0 max 8;
+}
+character "char:warden" named "Gate Warden" at "loc:court" {
+ stat "attack" = 5; stat "defense" = 14;
+ resource "hp" = 12 min 0 max 12;
+}
+character "char:seer" named "Ash Seer" at "loc:court" {
+ stat "attack" = 3; stat "defense" = 10;
+ resource "hp" = 8 min 0 max 8;
+}
+character "char:keeper" named "Beacon Keeper" at "loc:beacon" {
+ stat "defense" = 10; resource "hp" = 1 min 0 max 1;
+}
+character "char:guide" named "River Guide" at "loc:camp" {
+ stat "defense" = 10; resource "hp" = 1 min 0 max 1;
+}
+item "item:shield" named "Bronze Shield" { owner "char:orin"; wearer "char:lyra"; }
+item "item:coat" named "Coat" { owner "char:lyra"; }
+item "item:staff" named "Staff" { owner "char:lyra"; }
+item "item:blade" named "Blade" { owner "char:orin"; }
+item "item:knife" named "Knife" { owner "char:tess"; }
+item "item:rope" named "Rope" { owner "char:tess"; }
+item "item:lantern" named "Lantern" { owner "char:orin"; }
+item "item:flask" named "Flask" { owner "char:lyra"; }
+item "item:cloak" named "Coat" { owner "char:tess"; }
+item "item:token" named "Token" { owner "char:orin"; }
+item "item:relic" named "Beacon Ember" { owner "char:keeper"; }
+effect "effect:shield" from item "item:shield" on worn "item:shield" stat "defense" add 2;
+effect "effect:coat" from item "item:coat" on worn "item:coat" stat "defense" add 1;
+effect "effect:staff" from item "item:staff" on worn "item:staff" stat "attack" add 1;
+effect "effect:blade" from item "item:blade" on worn "item:blade" stat "attack" add 2;
+condition type "condition:guarded" { instances unique; modifier "guard" stat "defense" add 3; }
+condition type "condition:marked" { instances coexist; }
+condition type "condition:ember-bearer" { instances unique; }
+ability "ability:focused-strike" named "Focused Strike — pay 2 Focus, check, deal 4 HP" {
+ parameter "actor" character; parameter "target" character;
+ action actor param "actor" phase encounter;
+ require alive param "target" resource "hp";
+ require hostile param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ spend param "actor" resource "focus" by 2;
+ check "strike" die 20 plus stat param "actor" "attack" against stat param "target" "defense" {
+  success { damage param "target" resource "hp" by 4; }
+  failure { }
+ }
+}
+ability "ability:jab" named "Jab — free check, deal 2 HP" {
+ parameter "actor" character; parameter "target" character;
+ action actor param "actor" phase encounter;
+ require alive param "target" resource "hp";
+ require hostile param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ check "jab" die 20 plus stat param "actor" "attack" against stat param "target" "defense" {
+  success { damage param "target" resource "hp" by 2; }
+  failure { }
+ }
+}
+ability "ability:steady-aid" named "Steady Aid — pay 1 Focus, heal 4, guard through two round ends" {
+ parameter "actor" character; parameter "target" character; parameter "guard" condition_id;
+ action actor param "actor" phase encounter;
+ require alive param "target" resource "hp";
+ require allied param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ require lacks param "target" condition "condition:guarded";
+ spend param "actor" resource "focus" by 1;
+ heal param "target" resource "hp" by 4;
+ apply condition param "guard" of "condition:guarded" to param "target" duration 2;
+}
+ability "ability:guard" named "Guard — pay 1 Focus, +3 Defense through this round end" {
+ parameter "actor" character; parameter "guard" condition_id;
+ action actor param "actor" phase encounter;
+ require lacks param "actor" condition "condition:guarded";
+ spend param "actor" resource "focus" by 1;
+ apply condition param "guard" of "condition:guarded" to param "actor" duration 1;
+}
+ability "ability:mark" named "Mark — visible semantic marker through two round ends" {
+ parameter "actor" character; parameter "target" character; parameter "mark" condition_id;
+ action actor param "actor" phase encounter;
+ require alive param "target" resource "hp";
+ require hostile param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ apply condition param "mark" of "condition:marked" to param "target" duration 2;
+}
+ability "ability:pass" named "Pass — consume this turn" {
+ parameter "actor" character;
+ action actor param "actor" phase encounter;
+}
+ability "ability:equip" named "Equip a party item on yourself" {
+ parameter "actor" character; parameter "item" item;
+ action actor param "actor" phase either;
+ require party_owned param "item";
+ equip param "item" on param "actor";
+}
+ability "ability:unequip" named "Unequip a party item" {
+ parameter "actor" character; parameter "item" item;
+ action actor param "actor" phase either;
+ require party_owned param "item";
+ unequip param "item";
+}
+ability "ability:change-loadout" named "Change wearer — explicitly unequip, then equip" {
+ parameter "actor" character; parameter "item" item; parameter "target" character;
+ action actor param "actor" phase either;
+ require party_owned param "item";
+ require allied param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ unequip param "item";
+ equip param "item" on param "target";
+}
+ability "ability:handoff" named "HandOff — transfer ownership and equip recipient" {
+ parameter "actor" character; parameter "item" item; parameter "giver" character; parameter "target" character;
+ action actor param "actor" phase either;
+ require party_owned param "item";
+ require allied param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ transfer param "item" from param "giver" to param "target";
+ equip param "item" on param "target";
+}
+ability "ability:rest" named "Rest at the River Guide — restore 6 HP and 6 Focus" {
+ parameter "actor" character; parameter "target" character;
+ action actor param "actor" phase exploration;
+ require colocated param "actor" with "char:guide";
+ require allied param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ heal param "target" resource "hp" by 6;
+ heal param "target" resource "focus" by 6;
+}
+ability "ability:to-path" named "Travel together to Thorn Path" {
+ parameter "actor" character; action actor param "actor" phase exploration;
+ travel party to "loc:path";
+}
+ability "ability:to-court" named "Travel together to Broken Courtyard" {
+ parameter "actor" character; action actor param "actor" phase exploration;
+ travel party to "loc:court";
+}
+ability "ability:to-beacon" named "Travel together to Silent Beacon" {
+ parameter "actor" character; action actor param "actor" phase exploration;
+ travel party to "loc:beacon";
+}
+ability "ability:to-camp" named "Travel together to Camp" {
+ parameter "actor" character; action actor param "actor" phase exploration;
+ travel party to "loc:camp";
+}
+ability "ability:claim-ember" named "Claim the Beacon Ember for a companion" {
+ parameter "actor" character; parameter "target" character; parameter "mark" condition_id;
+ action actor param "actor" phase exploration;
+ require allied param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ claim objective "objective:ember" to param "target";
+ apply condition param "mark" of "condition:ember-bearer" to param "target" from location "loc:beacon";
+}
+ability "ability:field-care" named "FieldCare — pay 1 Focus, heal 4 without a new guard" {
+ parameter "actor" character; parameter "target" character;
+ action actor param "actor" phase encounter;
+ require alive param "target" resource "hp";
+ require allied param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ spend param "actor" resource "focus" by 1;
+ heal param "target" resource "hp" by 4;
+}
+ability "ability:enemy-strike" named "Enemy strike — check, deal 4 HP" {
+ parameter "actor" character; parameter "target" character;
+ action actor param "actor" phase encounter;
+ require alive param "target" resource "hp";
+ require hostile param "actor" with param "target";
+ require colocated param "actor" with param "target";
+ check "enemy strike" die 20 plus stat param "actor" "attack" against stat param "target" "defense" {
+  success { damage param "target" resource "hp" by 4; }
+  failure { }
+ }
+}
+ability "ability:seer-mark" named "Seer mark — label a companion until two round ends" {
+ parameter "actor" character; parameter "target" character; parameter "mark" condition_id;
+ action actor param "actor" phase encounter;
+ require alive param "target" resource "hp";
+ require hostile param "actor" with param "target";
+ require lacks param "target" condition "condition:marked";
+ apply condition param "mark" of "condition:marked" to param "target" duration 2;
+}
+adventure {
+ party "char:orin"; party "char:lyra"; party "char:tess";
+ health "hp";
+ seed 1 2;
+ link "loc:camp" to "loc:path"; link "loc:path" to "loc:camp";
+ link "loc:path" to "loc:court"; link "loc:court" to "loc:path";
+ link "loc:court" to "loc:beacon"; link "loc:beacon" to "loc:court";
+ grant "char:orin" {
+  ability "ability:focused-strike"; ability "ability:jab"; ability "ability:steady-aid"; ability "ability:guard"; ability "ability:mark"; ability "ability:pass";
+  ability "ability:equip"; ability "ability:unequip"; ability "ability:change-loadout"; ability "ability:handoff"; ability "ability:rest";
+  ability "ability:to-path"; ability "ability:to-court"; ability "ability:to-beacon"; ability "ability:to-camp"; ability "ability:claim-ember";
+  ability "ability:field-care";
+ }
+ grant "char:lyra" {
+  ability "ability:focused-strike"; ability "ability:jab"; ability "ability:steady-aid"; ability "ability:guard"; ability "ability:mark"; ability "ability:pass";
+  ability "ability:equip"; ability "ability:unequip"; ability "ability:change-loadout"; ability "ability:handoff"; ability "ability:rest";
+  ability "ability:to-path"; ability "ability:to-court"; ability "ability:to-beacon"; ability "ability:to-camp"; ability "ability:claim-ember";
+  ability "ability:field-care";
+ }
+ grant "char:tess" {
+  ability "ability:focused-strike"; ability "ability:jab"; ability "ability:steady-aid"; ability "ability:guard"; ability "ability:mark"; ability "ability:pass";
+  ability "ability:equip"; ability "ability:unequip"; ability "ability:change-loadout"; ability "ability:handoff"; ability "ability:rest";
+  ability "ability:to-path"; ability "ability:to-court"; ability "ability:to-beacon"; ability "ability:to-camp"; ability "ability:claim-ember";
+  ability "ability:field-care";
+ }
+ grant "char:scout" { ability "ability:enemy-strike"; ability "ability:pass"; }
+ grant "char:warden" { ability "ability:enemy-strike"; ability "ability:pass"; }
+ grant "char:seer" { ability "ability:seer-mark"; ability "ability:enemy-strike"; ability "ability:pass"; }
+ encounter "encounter:path" at "loc:path" {
+  participant "char:orin" team party; participant "char:lyra" team party; participant "char:tess" team party; participant "char:scout" team hostile;
+ }
+ encounter "encounter:court" at "loc:court" {
+  participant "char:orin" team party; participant "char:warden" team hostile; participant "char:lyra" team party; participant "char:seer" team hostile; participant "char:tess" team party;
+ }
+ objective "objective:ember" item "item:relic" custodian "char:keeper" victory "encounter:court" destination "loc:camp";
+}

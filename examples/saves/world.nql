@@ -1,0 +1,44 @@
+// A per-call world in a host's shape: a map, no Battle, and the attack law,
+// whose die, health Resource and damage traits a save also uses.
+rules { transfer unequips; wear any; }
+clock "second" at 28800;
+attacks { defense "ac"; health "hp"; die 20; miss 1; critical 20; critical dice 2; }
+location "loc:valley/B03" named "Old Mill";
+character "char:eirik" named "Eirik" at "loc:valley/B03" {
+ stat "ac" = 18;
+ resource "hp" = 54 min 0 max 54;
+}
+character "char:ada" named "Ada" at "loc:valley/B03" {
+ stat "ac" = 16; stat "save:dexterity" = 1; stat "save:constitution" = 2;
+ resource "hp" = 24 min 0 max 24;
+ resource "temp-hp" = 5 min 0 max 5;
+ buffer "temp-hp" before "hp";
+}
+character "occ:valley/B03/spider-1" named "Giant Spider" at "loc:valley/B03" {
+ stat "ac" = 14; stat "save:dexterity" = 3;
+ resource "hp" = 26 min 0 max 26;
+}
+// An imp's stat block resists fire.
+character "occ:valley/B03/imp-1" named "Imp" at "loc:valley/B03" {
+ stat "ac" = 13; stat "save:dexterity" = 3;
+ resource "hp" = 10 min 0 max 10;
+ resist "fire";
+}
+character "occ:valley/B03/cultist-1" named "Cultist" at "loc:valley/B03" {
+ stat "ac" = 12;
+ resource "hp" = 9 min 0 max 9;
+}
+character "occ:valley/B03/bandit-1" named "Bandit" at "loc:valley/B03" {
+ stat "ac" = 12; stat "save:dexterity" = 1;
+ resource "hp" = 11 min 0 max 11;
+}
+// Restrained: disadvantage on Dexterity saves. Webbing holds the bandit.
+condition type "state:restrained" { instances coexist; modifier "save:dexterity" stat "save:dexterity" roll disadvantage; }
+condition "occ:valley/B03/bandit-1:web" of "state:restrained" to "occ:valley/B03/bandit-1";
+condition type "state:concentration" { instances unique; }
+condition_check "state:concentration" after_damage resource "hp" stat "save:constitution" sides 20 minimum 10 divide 2 maximum 30;
+condition "char:ada:concentration" of "state:concentration" to "char:ada";
+map {
+ party "char:eirik";
+ visited "loc:valley/B03";
+}

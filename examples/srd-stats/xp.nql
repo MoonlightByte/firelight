@@ -1,0 +1,6 @@
+// A 900 XP encounter, split three ways: 300 each. The fighter's 300 reaches
+// level 2, so a level-up is pending; the bard and the rogue stay short of
+// their next level.
+adjust "char:fighter" stat "xp" by 300;
+adjust "char:bard" stat "xp" by 300;
+adjust "char:rogue" stat "xp" by 300;

@@ -1,0 +1,28 @@
+rules { transfer unequips; wear any; }
+location "loc:courtyard" named "Courtyard";
+location "loc:shrine" named "Shrine";
+character "char:orin" named "Orin" at "loc:courtyard" {
+ stat "defense" = 8;
+ resource "focus" = 3 min 0 max 5;
+ resource "hp" = 8 min 0 max 20;
+}
+character "char:lyra" named "Lyra" at "loc:courtyard" {
+ stat "defense" = 10;
+ resource "hp" = 6 min 0 max 20;
+}
+character "char:tess" named "Tess" at "loc:shrine" {
+ stat "defense" = 9;
+ resource "hp" = 11 min 0 max 20;
+}
+item "item:token" named "Token" { owner "char:orin"; }
+relation character "char:orin" "trust" character "char:lyra" = 4;
+condition type "condition:guarded" {
+ instances unique;
+ modifier "ward" stat "defense" add 3;
+}
+ability "ability:focused-strike" named "FocusedStrike" {
+ parameter "payer" character;
+ parameter "target" character;
+ spend param "payer" resource "focus" by 2;
+ damage param "target" resource "hp" by 4;
+}

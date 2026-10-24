@@ -1,0 +1,2 @@
+start quest "quest:valley/mill" impact "Ranger Mira asked the party to drive the goblins from the mill";
+start quest "quest:valley/tower" impact "the watch must hear of the raids before nightfall";

@@ -1,0 +1,34 @@
+// A per-call world in a host's shape: a map, no Battle, and the attack law.
+// The host sends every face and damage total; the engine scores and applies.
+rules { transfer unequips; wear any; }
+clock "second" at 28800;
+attacks { defense "ac"; health "hp"; die 20; miss 1; critical 20; critical dice 2; }
+location "loc:valley/B03" named "Old Mill";
+character "char:ada" named "Ada" at "loc:valley/B03" {
+ stat "ac" = 16; stat "save:constitution" = 2;
+ resource "hp" = 24 min 0 max 24;
+ resource "temp-hp" = 5 min 0 max 5;
+ buffer "temp-hp" before "hp";
+}
+character "occ:valley/B03/goblin-1" named "Goblin" at "loc:valley/B03" {
+ stat "ac" = 15;
+ resource "hp" = 7 min 0 max 7;
+}
+// A skeleton's stat block: resistant to piercing, vulnerable to
+// bludgeoning, immune to poison. A warding spell on it gives resistance to
+// bludgeoning while it lasts.
+character "occ:valley/B03/skeleton-1" named "Skeleton" at "loc:valley/B03" {
+ stat "ac" = 13;
+ resource "hp" = 13 min 0 max 13;
+ resist "piercing"; vulnerable "bludgeoning"; immune "poison";
+}
+condition type "spell:warding" { instances unique; }
+damage trait "spell:warding" resistance "bludgeoning";
+condition "occ:valley/B03/skeleton-1:warding" of "spell:warding" to "occ:valley/B03/skeleton-1";
+condition type "state:concentration" { instances unique; }
+condition_check "state:concentration" after_damage resource "hp" stat "save:constitution" sides 20 minimum 10 divide 2 maximum 30;
+condition "char:ada:concentration" of "state:concentration" to "char:ada";
+map {
+ party "char:ada";
+ visited "loc:valley/B03";
+}

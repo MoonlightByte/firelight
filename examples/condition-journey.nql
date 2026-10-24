@@ -1,0 +1,4 @@
+apply condition "ci:blessing-a" of "blessing" to "char:ada" from character "char:bea" magnitude 2;
+apply condition "ci:blessing-b" of "blessing" to "char:ada" magnitude 3 from location "loc:shrine";
+apply condition "ci:marked" of "marked" to "char:ada" from item "item:venom";
+remove condition "ci:blessing-a" from "char:ada";

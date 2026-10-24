@@ -1,0 +1,4 @@
+// Ada's longsword, from her sheet: +5 to hit, 1d8+3 slashing. The player
+// rolled a 20. No damage total yet: the engine scores the swing, and the
+// host asks the player for the damage dice a critical needs.
+attack "char:ada" profile to_hit 5 damage 1d8+3 kind "slashing" against "occ:valley/B03/goblin-1" faces 20;

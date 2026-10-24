@@ -1,0 +1,2 @@
+// The restrained bandit saves first; the host asks for damage only if needed.
+save "char:eirik" profile stat "save:dexterity" dc 15 damage 2d8 kind "radiant" success none against "occ:valley/B03/bandit-1" faces 18 7;

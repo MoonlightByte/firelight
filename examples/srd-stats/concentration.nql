@@ -1,0 +1,12 @@
+// The bard casts Shield of Faith on the fighter and concentrates on it; the
+// shield is anchored to the concentration, so it ends with it.
+apply condition "char:bard:concentration" of "state:concentration" to "char:bard";
+apply condition "char:fighter:shield-of-faith" of "spell:shield-of-faith" to "char:fighter" from character "char:bard" anchor "char:bard:concentration";
+// 12 damage is DC 10. The player rolled 9: 9 + 1 = 10, and the bard holds on.
+damage "char:bard" resource "hp" by 12 faces "char:bard:concentration" 9;
+// 20 damage is DC 10 again. The player rolled 4: 4 + 1 = 5, and the
+// concentration and the shield end.
+damage "char:bard" resource "hp" by 20 faces "char:bard:concentration" 4;
+// Stunned includes Incapacitated, which ends a new concentration.
+apply condition "char:bard:concentration:2" of "state:concentration" to "char:bard";
+apply condition "char:bard:stunned" of "state:stunned" to "char:bard";

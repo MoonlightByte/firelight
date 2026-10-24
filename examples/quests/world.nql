@@ -1,0 +1,13 @@
+rules { transfer unequips; wear any; }
+clock "second" at 28800;
+location "loc:valley/B01" named "Trailhead";
+location "loc:valley/B02" named "Ranger Outpost";
+location "loc:valley/B03" named "Old Mill";
+location "loc:valley/B04" named "Watchtower";
+character "char:ada" named "Ada" at "loc:valley/B01" { }
+quest "quest:valley/mill" named "Clear the Old Mill";
+quest "quest:valley/tower" named "Warn the Watchtower" { requires "quest:valley/mill"; }
+quest "quest:valley/herbs" named "Herbs for Mira" {
+  side of "quest:valley/mill";
+  started impact "Mira needs feverfew from the riverbank for her fever" at 27000;
+}

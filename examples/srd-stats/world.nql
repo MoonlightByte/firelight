@@ -1,0 +1,451 @@
+// SRD 5.2.1 character stats as engine rules; docs/CHARACTER_STATS.md is the
+// guide. The five marked blocks are the rules a world copies: the proficiency
+// Condition types, the SRD conditions, concentration, and the derived stats
+// and experience points that go inside its equipment block. The characters are
+// tests/character_stats_test.go fixtures.
+rules { transfer unequips; wear any; }
+// The engine rolls checks that come without faces. A host picks a fresh seed
+// for every genesis; the same seed rolls the same faces.
+dice seed 20 25;
+location "loc:hall" named "Hall";
+character "char:fighter" named "Fighter" at "loc:hall" {
+ stat "strength" = 16; stat "dexterity" = 12; stat "constitution" = 15; stat "intelligence" = 8; stat "wisdom" = 13; stat "charisma" = 10;
+ stat "level" = 1; stat "speed" = 30;
+ stat "xp" = 0; stat "xp:next" = 0; stat "xp:pending" = 0;
+ stat "bonus:saves" = 0; stat "bonus:checks" = 0; stat "bonus:d20" = 0;
+ stat "proficiency" = 0;
+ stat "mod:strength" = 0; stat "mod:dexterity" = 0; stat "mod:constitution" = 0; stat "mod:intelligence" = 0; stat "mod:wisdom" = 0; stat "mod:charisma" = 0;
+ stat "check:strength" = 0; stat "check:dexterity" = 0; stat "check:constitution" = 0; stat "check:intelligence" = 0; stat "check:wisdom" = 0; stat "check:charisma" = 0;
+ stat "save:strength" = 0; stat "save:dexterity" = 0; stat "save:constitution" = 0; stat "save:intelligence" = 0; stat "save:wisdom" = 0; stat "save:charisma" = 0;
+ stat "skill:acrobatics" = 0; stat "skill:animal-handling" = 0; stat "skill:arcana" = 0; stat "skill:athletics" = 0; stat "skill:deception" = 0; stat "skill:history" = 0;
+ stat "skill:insight" = 0; stat "skill:intimidation" = 0; stat "skill:investigation" = 0; stat "skill:medicine" = 0; stat "skill:nature" = 0; stat "skill:perception" = 0;
+ stat "skill:performance" = 0; stat "skill:persuasion" = 0; stat "skill:religion" = 0; stat "skill:sleight-of-hand" = 0; stat "skill:stealth" = 0; stat "skill:survival" = 0;
+ stat "initiative" = 0; stat "passive:perception" = 10;
+ stat "defense" = 10;
+ resource "hp" = 12 min 0 max 12;
+}
+character "char:bard" named "Bard" at "loc:hall" {
+ stat "strength" = 8; stat "dexterity" = 14; stat "constitution" = 12; stat "intelligence" = 10; stat "wisdom" = 13; stat "charisma" = 17;
+ stat "level" = 5; stat "speed" = 30;
+ stat "xp" = 6500; stat "xp:next" = 0; stat "xp:pending" = 0;
+ stat "bonus:saves" = 0; stat "bonus:checks" = 0; stat "bonus:d20" = 0;
+ stat "proficiency" = 0;
+ stat "mod:strength" = 0; stat "mod:dexterity" = 0; stat "mod:constitution" = 0; stat "mod:intelligence" = 0; stat "mod:wisdom" = 0; stat "mod:charisma" = 0;
+ stat "check:strength" = 0; stat "check:dexterity" = 0; stat "check:constitution" = 0; stat "check:intelligence" = 0; stat "check:wisdom" = 0; stat "check:charisma" = 0;
+ stat "save:strength" = 0; stat "save:dexterity" = 0; stat "save:constitution" = 0; stat "save:intelligence" = 0; stat "save:wisdom" = 0; stat "save:charisma" = 0;
+ stat "skill:acrobatics" = 0; stat "skill:animal-handling" = 0; stat "skill:arcana" = 0; stat "skill:athletics" = 0; stat "skill:deception" = 0; stat "skill:history" = 0;
+ stat "skill:insight" = 0; stat "skill:intimidation" = 0; stat "skill:investigation" = 0; stat "skill:medicine" = 0; stat "skill:nature" = 0; stat "skill:perception" = 0;
+ stat "skill:performance" = 0; stat "skill:persuasion" = 0; stat "skill:religion" = 0; stat "skill:sleight-of-hand" = 0; stat "skill:stealth" = 0; stat "skill:survival" = 0;
+ stat "initiative" = 0; stat "passive:perception" = 10;
+ stat "spell-dc:charisma" = 8; stat "spell-attack:charisma" = 0;
+ stat "defense" = 10;
+ resource "hp" = 33 min 0 max 33;
+}
+character "char:rogue" named "Rogue" at "loc:hall" {
+ stat "strength" = 10; stat "dexterity" = 20; stat "constitution" = 14; stat "intelligence" = 14; stat "wisdom" = 12; stat "charisma" = 8;
+ stat "level" = 17; stat "speed" = 30;
+ stat "xp" = 230000; stat "xp:next" = 0; stat "xp:pending" = 0;
+ stat "bonus:saves" = 0; stat "bonus:checks" = 0; stat "bonus:d20" = 0;
+ stat "proficiency" = 0;
+ stat "mod:strength" = 0; stat "mod:dexterity" = 0; stat "mod:constitution" = 0; stat "mod:intelligence" = 0; stat "mod:wisdom" = 0; stat "mod:charisma" = 0;
+ stat "check:strength" = 0; stat "check:dexterity" = 0; stat "check:constitution" = 0; stat "check:intelligence" = 0; stat "check:wisdom" = 0; stat "check:charisma" = 0;
+ stat "save:strength" = 0; stat "save:dexterity" = 0; stat "save:constitution" = 0; stat "save:intelligence" = 0; stat "save:wisdom" = 0; stat "save:charisma" = 0;
+ stat "skill:acrobatics" = 0; stat "skill:animal-handling" = 0; stat "skill:arcana" = 0; stat "skill:athletics" = 0; stat "skill:deception" = 0; stat "skill:history" = 0;
+ stat "skill:insight" = 0; stat "skill:intimidation" = 0; stat "skill:investigation" = 0; stat "skill:medicine" = 0; stat "skill:nature" = 0; stat "skill:perception" = 0;
+ stat "skill:performance" = 0; stat "skill:persuasion" = 0; stat "skill:religion" = 0; stat "skill:sleight-of-hand" = 0; stat "skill:stealth" = 0; stat "skill:survival" = 0;
+ stat "initiative" = 0; stat "passive:perception" = 10;
+ stat "defense" = 10;
+ resource "hp" = 122 min 0 max 122;
+}
+// BEGIN srd-stats:conditions
+condition type "prof:save:strength" { instances unique; }
+condition type "prof:save:dexterity" { instances unique; }
+condition type "prof:save:constitution" { instances unique; }
+condition type "prof:save:intelligence" { instances unique; }
+condition type "prof:save:wisdom" { instances unique; }
+condition type "prof:save:charisma" { instances unique; }
+condition type "prof:skill:acrobatics" { instances unique; }
+condition type "prof:skill:animal-handling" { instances unique; }
+condition type "prof:skill:arcana" { instances unique; }
+condition type "prof:skill:athletics" { instances unique; }
+condition type "prof:skill:deception" { instances unique; }
+condition type "prof:skill:history" { instances unique; }
+condition type "prof:skill:insight" { instances unique; }
+condition type "prof:skill:intimidation" { instances unique; }
+condition type "prof:skill:investigation" { instances unique; }
+condition type "prof:skill:medicine" { instances unique; }
+condition type "prof:skill:nature" { instances unique; }
+condition type "prof:skill:perception" { instances unique; }
+condition type "prof:skill:performance" { instances unique; }
+condition type "prof:skill:persuasion" { instances unique; }
+condition type "prof:skill:religion" { instances unique; }
+condition type "prof:skill:sleight-of-hand" { instances unique; }
+condition type "prof:skill:stealth" { instances unique; }
+condition type "prof:skill:survival" { instances unique; }
+condition type "expertise:skill:acrobatics" { instances unique; }
+condition type "expertise:skill:animal-handling" { instances unique; }
+condition type "expertise:skill:arcana" { instances unique; }
+condition type "expertise:skill:athletics" { instances unique; }
+condition type "expertise:skill:deception" { instances unique; }
+condition type "expertise:skill:history" { instances unique; }
+condition type "expertise:skill:insight" { instances unique; }
+condition type "expertise:skill:intimidation" { instances unique; }
+condition type "expertise:skill:investigation" { instances unique; }
+condition type "expertise:skill:medicine" { instances unique; }
+condition type "expertise:skill:nature" { instances unique; }
+condition type "expertise:skill:perception" { instances unique; }
+condition type "expertise:skill:performance" { instances unique; }
+condition type "expertise:skill:persuasion" { instances unique; }
+condition type "expertise:skill:religion" { instances unique; }
+condition type "expertise:skill:sleight-of-hand" { instances unique; }
+condition type "expertise:skill:stealth" { instances unique; }
+condition type "expertise:skill:survival" { instances unique; }
+condition type "feature:jack-of-all-trades" { instances unique; }
+condition type "feat:alert" { instances unique; }
+// END srd-stats:conditions
+// The SRD conditions. Each instance is one source, so two grapplers are two
+// instances; only Exhaustion stacks, one instance per level. Unconscious is
+// also held, with no instance, while hit points are at 0. Paralyzed,
+// Petrified, Stunned and Unconscious include Incapacitated, which is present
+// wherever they are; the Prone that Unconscious leaves behind is an instance
+// of its own. A roll modifier reaches every check whose stat reads the named
+// one: Poisoned's reaches every ability check through bonus:checks.
+// BEGIN srd-stats:srd-conditions
+condition type "state:blinded" { instances coexist; }
+condition type "state:charmed" { instances coexist; }
+condition type "state:deafened" { instances coexist; }
+condition type "state:exhaustion" { instances coexist; modifier "d20" stat "bonus:d20" add -2; modifier "speed" stat "speed" add -5; }
+condition type "state:frightened" { instances coexist; }
+condition type "state:grappled" { instances coexist; modifier "speed" stat "speed" at most 0; }
+condition type "state:incapacitated" { instances coexist; modifier "initiative" stat "initiative" roll disadvantage; }
+condition type "state:invisible" { instances coexist; modifier "initiative" stat "initiative" roll advantage; }
+condition type "state:paralyzed" { instances coexist; includes "state:incapacitated"; modifier "speed" stat "speed" at most 0; modifier "initiative" stat "initiative" roll disadvantage; modifier "save:strength" stat "save:strength" roll fail; modifier "save:dexterity" stat "save:dexterity" roll fail; }
+condition type "state:petrified" { instances coexist; includes "state:incapacitated"; modifier "speed" stat "speed" at most 0; modifier "initiative" stat "initiative" roll disadvantage; modifier "save:strength" stat "save:strength" roll fail; modifier "save:dexterity" stat "save:dexterity" roll fail; }
+condition type "state:poisoned" { instances coexist; modifier "checks" stat "bonus:checks" roll disadvantage; }
+condition type "state:prone" { instances coexist; }
+condition type "state:restrained" { instances coexist; modifier "speed" stat "speed" at most 0; modifier "save:dexterity" stat "save:dexterity" roll disadvantage; }
+condition type "state:stunned" { instances coexist; includes "state:incapacitated"; modifier "initiative" stat "initiative" roll disadvantage; modifier "save:strength" stat "save:strength" roll fail; modifier "save:dexterity" stat "save:dexterity" roll fail; }
+condition type "state:unconscious" { instances coexist; held_at_minimum "hp"; includes "state:incapacitated"; modifier "speed" stat "speed" at most 0; modifier "initiative" stat "initiative" roll disadvantage; modifier "save:strength" stat "save:strength" roll fail; modifier "save:dexterity" stat "save:dexterity" roll fail; }
+// END srd-stats:srd-conditions
+// Concentration. A new concentration replaces the old one, and the effects
+// anchored to it end with it. Damage calls for a Constitution save against DC
+// 10 or half the damage, up to 30: the player's faces come with the damage,
+// or the engine rolls the world's dice. A failed save ends the concentration;
+// so does Incapacitated, including at 0 hit points.
+// BEGIN srd-stats:concentration
+condition type "state:concentration" { instances replace; ends_on_condition "state:incapacitated"; }
+condition_check "state:concentration" after_damage resource "hp" stat "save:constitution" sides 20 minimum 10 divide 2 maximum 30;
+// END srd-stats:concentration
+// Effects a world may add: items change the totals through the bonus pools,
+// a base stat, or one total directly, or set a score.
+condition type "item:cloak-of-protection" { instances unique; modifier "ac" stat "defense" add 1; modifier "saves" stat "bonus:saves" add 1; }
+condition type "item:stone-of-good-luck" { instances unique; modifier "checks" stat "bonus:checks" add 1; modifier "saves" stat "bonus:saves" add 1; }
+condition type "item:gauntlets-of-ogre-power" { instances unique; modifier "strength" stat "strength" at least 19; }
+condition type "item:belt-of-giant-strength" { instances unique; modifier "strength" stat "strength" at least magnitude; }
+condition type "spell:shield-of-faith" { instances coexist; modifier "ac" stat "defense" add 2; }
+condition "char:fighter:prof:save:strength" of "prof:save:strength" to "char:fighter";
+condition "char:fighter:prof:save:constitution" of "prof:save:constitution" to "char:fighter";
+condition "char:fighter:prof:skill:athletics" of "prof:skill:athletics" to "char:fighter";
+condition "char:fighter:prof:skill:perception" of "prof:skill:perception" to "char:fighter";
+condition "char:fighter:feat:alert" of "feat:alert" to "char:fighter";
+condition "char:bard:prof:save:dexterity" of "prof:save:dexterity" to "char:bard";
+condition "char:bard:prof:save:charisma" of "prof:save:charisma" to "char:bard";
+condition "char:bard:prof:skill:deception" of "prof:skill:deception" to "char:bard";
+condition "char:bard:prof:skill:insight" of "prof:skill:insight" to "char:bard";
+condition "char:bard:prof:skill:performance" of "prof:skill:performance" to "char:bard";
+condition "char:bard:prof:skill:persuasion" of "prof:skill:persuasion" to "char:bard";
+condition "char:bard:expertise:skill:performance" of "expertise:skill:performance" to "char:bard";
+condition "char:bard:expertise:skill:persuasion" of "expertise:skill:persuasion" to "char:bard";
+condition "char:bard:feature:jack-of-all-trades" of "feature:jack-of-all-trades" to "char:bard";
+condition "char:rogue:prof:save:dexterity" of "prof:save:dexterity" to "char:rogue";
+condition "char:rogue:prof:save:intelligence" of "prof:save:intelligence" to "char:rogue";
+condition "char:rogue:prof:skill:acrobatics" of "prof:skill:acrobatics" to "char:rogue";
+condition "char:rogue:prof:skill:investigation" of "prof:skill:investigation" to "char:rogue";
+condition "char:rogue:prof:skill:perception" of "prof:skill:perception" to "char:rogue";
+condition "char:rogue:prof:skill:stealth" of "prof:skill:stealth" to "char:rogue";
+condition "char:rogue:expertise:skill:perception" of "expertise:skill:perception" to "char:rogue";
+condition "char:rogue:expertise:skill:stealth" of "expertise:skill:stealth" to "char:rogue";
+equipment "nql-equipment-v1" {
+ slot "body" capacity 1;
+ derive stat "defense" { term stat "dexterity" offset -10 divide 2; }
+ // BEGIN srd-stats:derive
+ derive stat "proficiency" { term stat "level" offset 7 divide 4; }
+ derive stat "mod:strength" { term stat "strength" offset -10 divide 2; }
+ derive stat "mod:dexterity" { term stat "dexterity" offset -10 divide 2; }
+ derive stat "mod:constitution" { term stat "constitution" offset -10 divide 2; }
+ derive stat "mod:intelligence" { term stat "intelligence" offset -10 divide 2; }
+ derive stat "mod:wisdom" { term stat "wisdom" offset -10 divide 2; }
+ derive stat "mod:charisma" { term stat "charisma" offset -10 divide 2; }
+ derive stat "check:strength" {
+  term stat "strength" offset -10 divide 2;
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "check:dexterity" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "check:constitution" {
+  term stat "constitution" offset -10 divide 2;
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "check:intelligence" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "check:wisdom" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "check:charisma" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "save:strength" {
+  term stat "strength" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:save:strength";
+  term stat "bonus:saves" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "save:dexterity" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:save:dexterity";
+  term stat "bonus:saves" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "save:constitution" {
+  term stat "constitution" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:save:constitution";
+  term stat "bonus:saves" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "save:intelligence" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:save:intelligence";
+  term stat "bonus:saves" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "save:wisdom" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:save:wisdom";
+  term stat "bonus:saves" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "save:charisma" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:save:charisma";
+  term stat "bonus:saves" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:acrobatics" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:acrobatics";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:acrobatics";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:acrobatics";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:animal-handling" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:animal-handling";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:animal-handling";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:animal-handling";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:arcana" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:arcana";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:arcana";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:arcana";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:athletics" {
+  term stat "strength" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:athletics";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:athletics";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:athletics";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:deception" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:deception";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:deception";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:deception";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:history" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:history";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:history";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:history";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:insight" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:insight";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:insight";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:insight";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:intimidation" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:intimidation";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:intimidation";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:intimidation";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:investigation" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:investigation";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:investigation";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:investigation";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:medicine" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:medicine";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:medicine";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:medicine";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:nature" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:nature";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:nature";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:nature";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:perception" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:perception";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:perception";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:perception";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:performance" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:performance";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:performance";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:performance";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:persuasion" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:persuasion";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:persuasion";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:persuasion";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:religion" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:religion";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:religion";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:religion";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:sleight-of-hand" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:sleight-of-hand";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:sleight-of-hand";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:sleight-of-hand";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:stealth" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:stealth";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:stealth";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:stealth";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "skill:survival" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:survival";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:survival";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:survival";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "initiative" {
+  term stat "dexterity" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "feat:alert";
+  term stat "bonus:checks" offset 0 divide 1;
+  term stat "bonus:d20" offset 0 divide 1;
+ }
+ derive stat "passive:perception" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4 requires "prof:skill:perception";
+  term stat "level" offset 7 divide 4 requires "expertise:skill:perception";
+  term stat "level" offset 7 divide 8 requires "feature:jack-of-all-trades" unless "prof:skill:perception";
+  term stat "bonus:checks" offset 0 divide 1;
+ }
+ derive stat "spell-dc:intelligence" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4;
+ }
+ derive stat "spell-dc:wisdom" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4;
+ }
+ derive stat "spell-dc:charisma" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "level" offset 7 divide 4;
+ }
+ derive stat "spell-attack:intelligence" {
+  term stat "intelligence" offset -10 divide 2;
+  term stat "level" offset 7 divide 4;
+ }
+ derive stat "spell-attack:wisdom" {
+  term stat "wisdom" offset -10 divide 2;
+  term stat "level" offset 7 divide 4;
+ }
+ derive stat "spell-attack:charisma" {
+  term stat "charisma" offset -10 divide 2;
+  term stat "level" offset 7 divide 4;
+ }
+ // END srd-stats:derive
+ // Experience points. The agent adjusts "xp" by each award; the engine derives
+ // the XP the next level needs from "level", and how many levels the XP has
+ // earned beyond it. The SRD Character Advancement table.
+ // BEGIN srd-stats:xp
+ derive stat "xp:next" {
+  term stat "level" offset 0 divide 1
+   step 1 = 300 step 2 = 900 step 3 = 2700 step 4 = 6500 step 5 = 14000
+   step 6 = 23000 step 7 = 34000 step 8 = 48000 step 9 = 64000 step 10 = 85000
+   step 11 = 100000 step 12 = 120000 step 13 = 140000 step 14 = 165000 step 15 = 195000
+   step 16 = 225000 step 17 = 265000 step 18 = 305000 step 19 = 355000 step 20 = 0;
+ }
+ derive stat "xp:pending" {
+  term stat "xp" offset 0 divide 1
+   step 0 = 1 step 300 = 2 step 900 = 3 step 2700 = 4 step 6500 = 5
+   step 14000 = 6 step 23000 = 7 step 34000 = 8 step 48000 = 9 step 64000 = 10
+   step 85000 = 11 step 100000 = 12 step 120000 = 13 step 140000 = 14 step 165000 = 15
+   step 195000 = 16 step 225000 = 17 step 265000 = 18 step 305000 = 19 step 355000 = 20;
+  term stat "level" offset 0 divide 1
+   step 1 = -1 step 2 = -2 step 3 = -3 step 4 = -4 step 5 = -5
+   step 6 = -6 step 7 = -7 step 8 = -8 step 9 = -9 step 10 = -10
+   step 11 = -11 step 12 = -12 step 13 = -13 step 14 = -14 step 15 = -15
+   step 16 = -16 step 17 = -17 step 18 = -18 step 19 = -19 step 20 = -20;
+ }
+ // END srd-stats:xp
+}

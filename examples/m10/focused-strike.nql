@@ -1,0 +1,4 @@
+invoke "ability:focused-strike" {
+ "payer" = character "char:orin";
+ "target" = character "char:lyra";
+};

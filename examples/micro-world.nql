@@ -1,0 +1,42 @@
+// Synthetic M1 fixture. Names deliberately duplicate; IDs never do.
+rules { transfer unequips; wear any; }
+location "loc:hall" named "Lantern Hall";
+location "loc:garden" named "Glass Garden";
+
+character "char:ada" named "Mira" at "loc:hall" {
+  stat "defense" = 10;
+  stat "resolve" = 8;
+  resource "hp" = 20 min 0 max 30;
+  resource "focus" = 4 min 0 max 6;
+}
+character "char:bea" named "Mira" at "loc:hall" {
+  stat "defense" = 10;
+  stat "resolve" = 12;
+  resource "hp" = 18 min 0 max 25;
+  resource "focus" = 5 min 0 max 9;
+}
+character "char:cy" named "Cy" at "loc:garden" {
+  stat "defense" = 9;
+  stat "resolve" = 11;
+  resource "hp" = 16 min 0 max 20;
+  resource "focus" = 3 min 0 max 7;
+}
+
+// Ada owns the shield; Bea wears it. Both are canonical independent facts.
+item "item:shield:001" named "Bronze Shield" { owner "char:ada"; wearer "char:bea"; }
+item "item:cloak:002" named "Blue Cloak" { owner "char:ada"; wearer "char:ada"; }
+item "item:blade:003" named "Practice Blade" { owner "char:ada"; }
+item "item:blade:004" named "Practice Blade" { owner "char:bea"; }
+item "item:lantern:005" named "Lantern" { owner "char:cy"; }
+item "item:rope:006" named "Rope" { owner "char:cy"; }
+item "item:coin:007" named "Coin" { owner "char:ada"; }
+item "item:coin:008" named "Coin" { owner "char:bea"; }
+item "item:book:009" named "Field Notes" { owner "char:bea"; }
+item "item:stone:010" named "Smooth Stone" { }
+
+effect "effect:shield" from item "item:shield:001" on worn "item:shield:001" stat "defense" add 2;
+effect "effect:blessing" from character "char:cy" on character "char:bea" stat "defense" add 3;
+effect "effect:cloak" from item "item:cloak:002" on worn "item:cloak:002" stat "resolve" add 1;
+relation character "char:ada" "trust" character "char:bea" = 2;
+// Sensitive fixture fact: full inspection can see it; task views exclude it.
+relation character "char:cy" "secret_debt" character "char:ada" = 417;

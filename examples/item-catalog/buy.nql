@@ -1,0 +1,4 @@
+spend "char:ada" resource "copper" by 2;
+create item "item:torch-7" from "itemdef:torch" {
+ owner "char:ada"; custody character "char:ada"; quantity 2;
+};
